@@ -16,8 +16,8 @@ import java.util.List;
 @RequestMapping("/api/convert")
 public class ConverterController {
 
-    @PostMapping("/excel-to-json")
-    public ResponseEntity<List<List<String>>> convertExcelToJson(@RequestParam("file") MultipartFile file) {
+    @PostMapping(path = "/excel-to-json", consumes = {"multipart/form-data"})
+    public ResponseEntity<List<List<String>>> convertExcelToJson(@RequestPart("file") MultipartFile file) {
         try {
             // Convert MultipartFile to File
             File tempFile = File.createTempFile("uploaded-", file.getOriginalFilename());
@@ -31,6 +31,7 @@ public class ConverterController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @PostMapping("/json-to-excel")
     public ResponseEntity<byte[]> convertJsonToExcel(@RequestBody List<List<String>> jsonData) {
